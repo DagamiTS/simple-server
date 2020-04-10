@@ -5,7 +5,6 @@ const collection = new Collection('/homeworks');
 
 function createTable(users) {
   
-  const gridWidth = Number(3);
   const gridHeight = Number(users.length);
 
   let result = '';
@@ -13,15 +12,9 @@ function createTable(users) {
   
   for (let i = 0; i < gridHeight; i++) {
     result = result + '<tr>';
-    for (let j = 1; j <= gridWidth; j++) {
-      if (j === 1) {
-        result = result + `<td>${users[i].number}</td>`;
-      }
-      if (j === 2) {
-        result = result + `<td><a href="/homeworks/${users[i].id}">${users[i].title}</a></td>`;
-      }
-      if (j === 3) {
-        result = result + `<td>
+    result = result + `<td>${users[i].number}</td>`;
+    result = result + `<td><a href="/homeworks/${users[i].id}">${users[i].title}</a></td>`;
+    result = result + `<td>
         <script>
           function deleteHW(id) {
             const xhr = new XMLHttpRequest();
@@ -32,8 +25,6 @@ function createTable(users) {
         </script>
         <button type="button" onclick="deleteHW('${users[i].id}')">X</button>
         </td>`;
-      }
-    }
     result = result + '</tr>';
   }
 
@@ -49,6 +40,7 @@ function requestHandler(request, response) {
   if (request.url === '/') {
     response.writeHead(200);
     response.write('<a href="/homeworks">To Table</a>');
+    response.end();
   }
 
   if (request.url.startsWith('/homeworks')) {
@@ -88,6 +80,6 @@ function requestHandler(request, response) {
 const server = http.createServer(requestHandler);
 const PORT = 5000;
 
-server.on('listening', () => console.log(`Listening on port: ${PORT}`));
+server.on('listening', () => console.log(`Listening on port: ${process.env.PORT || PORT}`));
 
 server.listen(process.env.PORT || PORT);
