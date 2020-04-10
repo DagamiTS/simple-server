@@ -52,7 +52,6 @@ function requestHandler(request, response) {
   }
 
   if (request.url.startsWith('/homeworks')) {
-
     if (request.method === 'GET' && (request.url === '/homeworks')) {
       collection.list()
         .then(list => {
